@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from models import Activity
 
 class ActivitySerializer(serializers.ModelSerializer):
-    # user = serializers.ReadOnlyField(source='user')
+    user = serializers.ReadOnlyField(source='user.username')
 
     class Meta:
         model = Activity

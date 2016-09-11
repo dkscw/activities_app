@@ -2,13 +2,15 @@ from django.contrib.auth.models import User
 from rest_framework import generics, permissions
 
 import serializers
+from permissions import IsOwnerOrReadOnly
 from models import Activity
 
 
 class ActivityList(generics.ListCreateAPIView):
     queryset = Activity.objects.all()
     serializer_class = serializers.ActivitySerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
